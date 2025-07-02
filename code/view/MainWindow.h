@@ -42,10 +42,10 @@ public:
 protected:
 //callbacks
     static void timeout_cb(void*);
-    // ADDED: 重写 FLTK 的事件处理函数
-    int handle(int event) override; 
+    void game_update();
+    void MainWindow::game_loop_callback(void *data);
 
-private:
+private : 
     GameWidget m_board;
 
 private:

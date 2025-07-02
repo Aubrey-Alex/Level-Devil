@@ -35,7 +35,6 @@ public:
 
     void append(std::shared_ptr<Entity> v) {
         m_entities.push_back(v);
-        rep(i, v->pos.x, v->pos.x+v->w-1) rep(j, v->pos.y, v->pos.y+v->h-1) mp[i][j]=v->type;
     }
     void insert(size_t idx, std::shared_ptr<Entity> v) {
         m_entities.insert(m_entities.begin() + idx, v);

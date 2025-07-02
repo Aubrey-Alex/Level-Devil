@@ -5,7 +5,6 @@
 #define Weight 800
 #define Height 400
 
-extern char mp[Weight][Height];
 struct Position {
 	double x, y;
 	Position(double x, double y): x(x), y(y) {}

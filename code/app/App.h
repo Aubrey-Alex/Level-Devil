@@ -3,10 +3,9 @@
 
 #include <FL/Fl.H>
 #include <memory>
-#include "../View/MainWindow.h"
-#include "../Model/entity_model.h"
-#include "../ViewModel/entity_view_model.h"
-#include "../common/commands.h"
+#include "../view/MainWindow.h"
+#include "../model/entity_model.h"
+#include "../view_model/entity_view_model.h"
 
 class App {
 public:

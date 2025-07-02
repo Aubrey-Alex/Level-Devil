@@ -44,80 +44,51 @@ void MainWindow::timeout_cb(void* pv)
     Fl::repeat_timeout(deltaTime, &timeout_cb, pThis);
 }
 
-// // 实现 FLTK 事件处理函数
-// int MainWindow::handle(int event) {
-//     printf("event: %d, key: %d\n", event, Fl::event_key()); // 调试输出
-//     switch (event) {
-//     case FL_KEYDOWN:
-//         if (Fl::event_key() == 'a' || Fl::event_key() == 'A') {
-//             printf("move left\n");
-//             if (m_start_move_left_command) m_start_move_left_command();
-//             if (m_next_step_command) m_next_step_command(0);
-//             return 1;
-//         } else if (Fl::event_key() == 'd' || Fl::event_key() == 'D') {
-//             if (m_start_move_right_command) m_start_move_right_command();
-//             if (m_next_step_command) m_next_step_command(0);
-//             return 1;
-//         } else if (Fl::event_key() == 'w' || Fl::event_key() == 'W') {
-//             if (m_jump_command) m_jump_command();
-//             if (m_next_step_command) m_next_step_command(0);
-//             return 1;
-//         }
-//         break;
-//     case FL_KEYUP:
-//         if (Fl::event_key() == 'a' || Fl::event_key() == 'A' || Fl::event_key() == 'd' || Fl::event_key() == 'D') {
-//             if (m_stop_move_command) m_stop_move_command();
-//             return 1;
-//         }
-//         break;
-//     default:
-//         break;
-//     }
-//     return Fl_Double_Window::handle(event);
-// }
-
-// 3. 实现新的核心逻辑：game_update 函数
+// game_update 函数
 void MainWindow::game_update()
 {
     // --- 在这里使用 Fl::get_key() 查询当前按键状态 ---
 
     // 查询水平移动
-    bool is_moving_left = Fl::get_key('a') || Fl::get_key('A');
-    bool is_moving_right = Fl::get_key('d') || Fl::get_key('D');
+    bool is_moving_left = Fl::get_key('a') || Fl::get_key('A') || Fl::get_key(FL_Left);
+    bool is_moving_right = Fl::get_key('d') || Fl::get_key('D') || Fl::get_key(FL_Right);
 
     // 根据查询结果调用命令
-    if (is_moving_left)
+    if (!is_moving_left && !is_moving_right || is_moving_left && is_moving_right)
     {
-        if (m_start_move_left_command)
-            m_start_move_left_command();
-            printf("move left\n");
-    }
-    else if (is_moving_right)
-    {
-        if (m_start_move_right_command)
-            m_start_move_right_command();
-            printf("move right\n");
-    }
-    else
-    {
-        // 如果左右键都没按，则调用停止命令
-        if (m_stop_move_command)
+        if (m_stop_move_command) {
             m_stop_move_command();
-            printf("stop\n");
+            // printf("stop\n");
+        }
+    }
+    else if(is_moving_left) 
+    {
+        if (m_start_move_left_command) {
+            m_start_move_left_command();
+            // printf("move left\n");
+        }
+    }
+    else if (is_moving_right)  // 改为独立的if，移除else
+    {
+        if (m_start_move_right_command) {
+            m_start_move_right_command();
+            // printf("move right\n");
+        }
     }
 
     // 查询跳跃键
-    if (Fl::get_key('w') || Fl::get_key('W'))
+    if (Fl::get_key('w') || Fl::get_key('W') || Fl::get_key(FL_Up))
     {
-        if (m_jump_command)
+        if (m_jump_command) {
             m_jump_command();
-            printf("jump\n");
+            // printf("jump\n");
+        }
     }
 
     // --- 在处理完所有输入后，统一驱动游戏世界更新一次 ---
     if (m_next_step_command)
     {
-        m_next_step_command(0); // 假设 m_next_step_command 驱动 ViewModel 和 Model 的 update
+        m_next_step_command(); // 假设 m_next_step_command 驱动 ViewModel 和 Model 的 update
     }
 
     // 可以在这里加上重绘请求，以更新画面

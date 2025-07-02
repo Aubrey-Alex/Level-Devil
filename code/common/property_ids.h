@@ -2,8 +2,12 @@
 #define PROPERTY_IDS_H
 
 enum class PropertyID {
+    NoChange,           // 没有变化
+    GameOver,         // 游戏结束（死亡）
+    LevelComplete,     // 关卡完成
+    PlayerPositionChanged,    // 位置发生变化
+
     // Player related
-    PlayerPositionChanged,
     PlayerStateChanged,
     PlayerDirectionChanged,
     

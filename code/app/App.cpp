@@ -21,15 +21,13 @@ void App::setupViewModel()
 void App::initializeCommands()
 {
     // 设置移动命令
-    mainwin.set_start_move_left_command(StartMoveLeftCommand(viewModel.getMoveLeftCommand()));
-    mainwin.set_start_move_right_command(StartMoveRightCommand(viewModel.getMoveRightCommand()));
-    mainwin.set_stop_move_command(StopMoveCommand(viewModel.getStopMoveCommand()));
-    mainwin.set_jump_command(JumpCommand(viewModel.getJumpCommand()));
-
+    mainwin.set_start_move_left_command(std::function<void()>(viewModel.getMoveLeftCommand()));
+    mainwin.set_start_move_right_command(std::function<void()>(viewModel.getMoveRightCommand()));
+    mainwin.set_stop_move_command(std::function<void()>(viewModel.getStopMoveCommand()));
+    mainwin.set_jump_command(std::function<void()>(viewModel.getJumpCommand()));
+    
     // 设置更新命令
-    mainwin.set_next_step_command([this](float deltaTime) {
-        viewModel.update(deltaTime);
-    });
+    mainwin.set_next_step_command(std::function<void()>(viewModel.getNextStepCommand()));
 }
 
 int App::run(int argc, char** argv)

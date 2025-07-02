@@ -25,11 +25,9 @@ void App::initializeCommands()
     mainwin.set_start_move_right_command(std::function<void()>(viewModel.getMoveRightCommand()));
     mainwin.set_stop_move_command(std::function<void()>(viewModel.getStopMoveCommand()));
     mainwin.set_jump_command(std::function<void()>(viewModel.getJumpCommand()));
-
+    
     // 设置更新命令
-    mainwin.set_next_step_command([this](float deltaTime) {
-        viewModel.update(deltaTime);
-    });
+    mainwin.set_next_step_command(std::function<void()>(viewModel.getNextStepCommand()));
 }
 
 int App::run(int argc, char** argv)

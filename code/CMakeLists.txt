@@ -9,17 +9,20 @@ add_executable(${PROJECT_NAME}
     app/App.cpp
     app/App.h
     common/Entity.h
-    common/frame.cpp
-    common/frame.h
+    common/notifier.cpp
+    common/notifier.h
     common/game_map.h
     common/property_ids.h
     model/entity_model.h
+    model/entity_model.cpp
     model/object.h
+    model/object.cpp
     view/MainWindow.cpp
     view/MainWindow.h
     view/widgets/GameWidget.cpp
     view/widgets/GameWidget.h
     view_model/entity_view_model.h
+    view_model/entity_view_model.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

@@ -6,7 +6,6 @@
 #include "../view/MainWindow.h"
 #include "../model/entity_model.h"
 #include "../view_model/entity_view_model.h"
-#include "../common/commands.h"
 
 class App {
 public:

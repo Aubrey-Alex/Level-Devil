@@ -1,7 +1,7 @@
 #ifndef __MAIN_WINDOW_H__
 #define __MAIN_WINDOW_H__
 
-#include "../common/frame.h"
+#include "../common/notifier.h"
 #include "widgets/GameWidget.h"
 #include <functional> 
 #include <FL/Fl_Double_Window.H> // 必须有这一行，定义基类
@@ -18,10 +18,7 @@ public:
 
 //commands
     // 定时更新命令（已存在）
-    void set_next_step_command(std::function<void(float)>&& pn) noexcept
-    {
-        m_next_step_command = std::move(pn);
-    }
+    void set_next_step_command(std::function<void()> &&cmd) noexcept { m_next_step_command = std::move(cmd); }
 
     // ADDED: 设置移动和跳跃命令的setter函数
     void set_start_move_left_command(std::function<void()>&& cmd) noexcept { m_start_move_left_command = std::move(cmd); }
@@ -50,7 +47,7 @@ private :
 
 private:
 //commands
-    std::function<void(float)> m_next_step_command;
+    std::function<void()> m_next_step_command;
     // ADDED: 存储移动和跳跃命令的成员变量
     std::function<void()> m_start_move_left_command;
     std::function<void()> m_start_move_right_command;

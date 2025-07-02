@@ -1,6 +1,6 @@
 #ifndef ENTITY_VIEW_MODEL_H
 #define ENTITY_VIEW_MODEL_H
-#include "../Model/entity_model.h"
+#include "../model/entity_model.h"
 #include "../common/frame.h"
 #include "../common/commands.h"
 #include <functional>

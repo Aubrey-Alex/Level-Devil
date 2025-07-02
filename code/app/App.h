@@ -21,5 +21,4 @@ private:
     void initializeCommands();
     void setupViewModel();
 };
-
 #endif

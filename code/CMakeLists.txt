@@ -8,7 +8,6 @@ add_executable(${PROJECT_NAME}
     main.cpp
     app/App.cpp
     app/App.h
-    common/commands.h
     common/Entity.h
     common/frame.cpp
     common/frame.h

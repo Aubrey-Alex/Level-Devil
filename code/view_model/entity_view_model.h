@@ -27,16 +27,16 @@ public:
     void jump() {
         m_jumpRequested = true;
     } 
-    StartMoveLeftCommand getMoveLeftCommand() {
+    std::function<void()> getMoveLeftCommand() {
         return [this]() { this->startMoveLeft(); };
     }
-    StartMoveRightCommand getMoveRightCommand() {
+    std::function<void()> getMoveRightCommand() {
         return [this]() { this->startMoveRight(); };
     }
-    StopMoveCommand getStopMoveCommand() {
+    std::function<void()> getStopMoveCommand() {
         return [this]() { this->stopMove(); };
     }
-    JumpCommand getJumpCommand() {
+    std::function<void()> getJumpCommand() {
         return [this]() { this->jump(); };
     }
     void update(float deltaTime) override {

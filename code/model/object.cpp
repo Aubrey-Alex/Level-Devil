@@ -88,16 +88,17 @@ PropertyID Player::update(std::shared_ptr<GameMap>& sp_GameMap) {
     
     // 边界检查
     if(newX < 0 || newX + w > Weight || newY < 0 || newY + h > Height) {
-        return PropertyID::GameOver;
+        return PropertyID::PlayerDead;
     }
 
-    // 检查碰撞
+    // 检查碰到刺
     if (checkCollision(newX, newY, 'S', sp_GameMap)) {
-        return PropertyID::PlayerPositionChanged;
+        return PropertyID::PlayerDead;
     }
 
+    // 检查碰到门
     if (checkCollision(newX, newY, 'D', sp_GameMap)) {
-        return PropertyID::PlayerPositionChanged;
+        return PropertyID::LevelComplete;
     }
     
     // 处理墙体碰撞

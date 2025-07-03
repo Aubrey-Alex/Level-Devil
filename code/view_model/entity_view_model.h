@@ -4,6 +4,7 @@
 #include "../model/entity_model.h"
 #include "../common/notifier.h"
 #include <functional>
+
 class Entity_View_Model: public PropertyNotifier {
 private:
     std::shared_ptr<Entity_Model> sp_Entity_Model;

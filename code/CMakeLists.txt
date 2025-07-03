@@ -8,21 +8,26 @@ add_executable(${PROJECT_NAME}
     main.cpp
     app/App.cpp
     app/App.h
-    common/Entity.h
     common/notifier.cpp
     common/notifier.h
-    common/game_map.h
     common/property_ids.h
-    model/entity_model.h
+    common/Entity.h
+    common/game_map.h
     model/entity_model.cpp
-    model/object.h
+    model/entity_model.h
     model/object.cpp
+    model/object.h
     view/MainWindow.cpp
     view/MainWindow.h
     view/widgets/GameWidget.cpp
     view/widgets/GameWidget.h
-    view_model/entity_view_model.h
+    view/widgets/GameStateWidget.cpp
+    view/widgets/GameStateWidget.h
     view_model/entity_view_model.cpp
+    view_model/entity_view_model.h
+    view_model/game_view_model.cpp
+    view_model/game_view_model.h
+    precomp.h
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

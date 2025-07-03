@@ -4,6 +4,7 @@
 void Entity_View_Model::update() {
     auto gameMap = sp_Entity_Model->getGameMap();
     Player* player = nullptr;
+    Spike* spike = nullptr;
     for (size_t i = 0; i < gameMap->get_size(); i++) {
         auto& entity = gameMap->get_at(i);
         if (entity.type == 'P') {

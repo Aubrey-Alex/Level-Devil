@@ -21,5 +21,6 @@ private:
 
     void initializeCommands();
     void setupViewModel();
+    void onGameViewModelNotification(PropertyID propertyId);
 };
 #endif

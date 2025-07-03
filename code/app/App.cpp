@@ -11,12 +11,25 @@ App::App()
 
 void App::setupViewModel()
 {
+    entityviewModel.reset();
     // 将View的通知函数注册到ViewModel上
     entityviewModel.add_notification(mainwin.get_notification());
     gameviewModel.add_notification(mainwin.get_notification());
     
+    // Register App to listen to GameViewModel notifications
+    gameviewModel.add_notification([this](PropertyID propertyId) {
+        this->onGameViewModelNotification(propertyId);
+    });
     // 设置GameWidget的地图数据
     mainwin.get_board().set_map(model->getGameMap().get());
+}
+
+void App::onGameViewModelNotification(PropertyID propertyId)
+{
+    if (propertyId == PropertyID::Initialization) // Assuming you have a PropertyID::Initialization
+    {
+        entityviewModel.reset();
+    }
 }
 
 void App::initializeCommands()

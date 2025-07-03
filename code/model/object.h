@@ -15,7 +15,7 @@ class Door : public Entity {
     };
     
 class Spike : public Entity {
-    private: int visible_dis;
+private: int visible_dis;
 public:
     Spike(double x, double y,double d = -1): Entity(x, y) {
         visible_dis = d;

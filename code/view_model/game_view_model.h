@@ -4,7 +4,6 @@
 #include "../common/notifier.h"
 #include "../common/property_ids.h"
 #include "../model/entity_model.h"
-#include "entity_view_model.h"
 #include <functional>
 
 class GameViewModel : public PropertyNotifier

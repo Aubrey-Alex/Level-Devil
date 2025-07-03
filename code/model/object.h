@@ -14,19 +14,22 @@ class Door : public Entity {
         }
     };
     
-    class Spike : public Entity {
-    public:
-        Spike(double x, double y): Entity(x, y) {
-            w = 54, h = 13, type = 'S';
-        }
-    };
-    
-    class Wall : public Entity {
-    public:
-        Wall(double x, double y, double width, double height): Entity(x, y) {
-            w = width, h = height, type = 'W';
-        }
-    };
+class Spike : public Entity {
+    private: int visible_dis;
+public:
+    Spike(double x, double y,double d = -1): Entity(x, y) {
+        visible_dis = d;
+        w = 54, h = 13, type = (visible_dis == -1 ) ? 'S' : 'U';
+    }
+    PropertyID Spike::update(std::shared_ptr<GameMap>& sp_GameMap);
+};
+
+class Wall : public Entity {
+public:
+    Wall(double x, double y, double width, double height): Entity(x, y) {
+        w = width, h = height, type = 'W';
+    }
+};
 
 class Player : public Entity {
 #define size_w 26
@@ -41,11 +44,13 @@ private:
     bool isGrounded;
     bool leftActive;
     bool rightActive;
+    double spike_view;
 
 public:
-    Player(double x, double y) : Entity(x, y) {
+    Player(double x, double y, double v) : Entity(x, y) {
         // printf("Player Pos = %.2lf %.2lf\n", x, y);
         v_Horizontal = v_Vertical = 0;
+        spike_view = v;
         isGrounded = true;
         leftActive = false;
         rightActive = false;
@@ -53,7 +58,9 @@ public:
         h = size_h;
         type = 'P';
     }
-
+    void set_spike_view(double v){
+        spike_view = v;
+    }
     void MoveLeft() {
         leftActive = true;
     }

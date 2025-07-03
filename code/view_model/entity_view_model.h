@@ -4,6 +4,7 @@
 #include "../model/entity_model.h"
 #include "../common/notifier.h"
 #include <functional>
+
 class Entity_View_Model: public PropertyNotifier {
 private:
     std::shared_ptr<Entity_Model> sp_Entity_Model;
@@ -12,6 +13,12 @@ private:
     bool m_jumpRequested = false;
 public:
     Entity_View_Model(std::shared_ptr<Entity_Model> model): sp_Entity_Model(std::move(model)) {
+        // sp_Entity_Model->newLevel(1);
+    }
+    void reset(){
+        if (sp_Entity_Model && sp_Entity_Model->getGameMap() && sp_Entity_Model->getGameMap()->get_size() > 0) { // Check if model and map exist and are not empty
+            sp_Entity_Model->getGameMap()->clear(); // Assuming your GameMap class has a clear() method
+        }
         sp_Entity_Model->newLevel(1);
     }
     void startMoveLeft() {

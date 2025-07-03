@@ -4,6 +4,7 @@
 void Entity_View_Model::update() {
     auto gameMap = sp_Entity_Model->getGameMap();
     Player* player = nullptr;
+    Spike* spike = nullptr;
     for (size_t i = 0; i < gameMap->get_size(); i++) {
         auto& entity = gameMap->get_at(i);
         if (entity.type == 'P') {
@@ -26,10 +27,10 @@ void Entity_View_Model::update() {
                 fire(PropertyID::PlayerPositionChanged);
                 break;
             case PropertyID::LevelComplete:
-                fire(PropertyID::LevelStateChanged);
+                fire(PropertyID::LevelComplete);
                 break;
-            case PropertyID::GameOver:
-                fire(PropertyID::GameStateChanged);
+            case PropertyID::PlayerDead:
+                fire(PropertyID::PlayerDead);
                 break;
             case PropertyID::NoChange:
                 break;

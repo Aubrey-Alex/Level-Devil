@@ -23,10 +23,8 @@ void GameWidget::draw()
 void GameWidget::draw_game()
 {
     // Draw background (sky) - top two-thirds as yellow
-    fl_rectf(x(), y(), w(), h() * 2 / 3, FL_YELLOW);
-
-    // Draw ground - bottom one-third as black
-    fl_rectf(x(), y() + h() * 2 / 3, w(), h() / 3, FL_BLACK);
+    fl_color(255,193,69);
+    fl_rectf(x(), y(), w(), h() * 2 / 3);
 
     if (m_pmap != nullptr) {
         for (size_t i = 0; i < m_pmap->get_size(); i++) {
@@ -39,7 +37,7 @@ void GameWidget::draw_game()
             switch (actor.type) {
                 case 'P': // Draw player as a black stick figure
                 {
-                    fl_color(FL_RED); // Set player color to red
+                    fl_color(FL_BLACK); // Set player color to red
 
                     // 以40x40为基准绘制stickman
                     // Head (10x10 pixels) - centered horizontally
@@ -58,15 +56,48 @@ void GameWidget::draw_game()
                     break;
                 }
                 case 'W': {
-                    fl_color(FL_DARK_RED); 
+                    fl_color(137,99,28);
                     fl_rectf(entity_drawing_x, entity_drawing_y, actor.w, actor.h);
                     break;
                 }
-                case 'D': {
-                    fl_color(FL_BLACK); 
-                    fl_rect(entity_drawing_x, entity_drawing_y, 40, 40); 
-                    fl_color(FL_BLUE); 
-                    fl_rectf(entity_drawing_x + 1, entity_drawing_y + 1, 38, 38); 
+                // "D" for Door
+                case 'D': { 
+                    // --- 设定40x40的尺寸 ---
+                    // 空处的尺寸为2
+                    const int space = 3; 
+                    const int width = 40;
+                    const int height = 40;
+                    // 为了方便计算，设定绘图原点为左上角
+                    const int ox = entity_drawing_x;
+                    const int oy = entity_drawing_y;
+        
+                    // --- 颜色定义 ---
+                    const unsigned char frame_r = 137, frame_g = 99, frame_b = 28;       // 暗棕色门框
+                    const unsigned char opening_r = 150, opening_g = 168, opening_b = 126; // 灰绿色门洞
+        
+                    // 1. 绘制暗棕色的门框 (Frame)
+                    fl_color(frame_r, frame_g, frame_b);
+                    
+                    // 门框左立柱 
+                    fl_rectf(ox + 0*space,  oy + 2*space,  2*space,  height - 2*space);
+                    // 门框右立柱 
+                    fl_rectf(ox + width - 2*space, oy + 2*space,  2*space,  height - 2*space);
+        
+                    // 门框的弧形顶部 
+                    // 最顶层 
+                    fl_rectf(ox + 2*space,  oy + 0*space,  width - 4*space,  2*space);
+                    // 左中间层 
+                    fl_rectf(ox + 1*space,  oy + 1*space,  2*space,  2*space);
+                    // 右中间层 
+                    fl_rectf(ox + width - 3*space,  oy + 1*space,  2*space,  2*space);
+        
+                    // 灰绿色的门洞 
+                    fl_color(opening_r, opening_g, opening_b);
+        
+                    // 门洞的主体部分 (一个14x13的矩形)
+                    fl_rectf(ox + 2*space,  oy + 3*space,  width - 4*space, height - 3*space);
+                    fl_rectf(ox + 3*space,  oy + 2*space,  width - 6*space, 1*space);
+        
                     break;
                 }
                 case 'S': {

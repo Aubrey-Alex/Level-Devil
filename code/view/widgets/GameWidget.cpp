@@ -4,7 +4,7 @@
 
 GameWidget::GameWidget(int x, int y, int w, int h, const char *l) : Fl_Group(x, y, w, h, l)
 {
-    m_box_person = new Fl_Box(x, y, w, h, l); // 初始化Fl_Box
+    m_box_person = new Fl_Box(x, y, w, h, l);
     end();
     box(FL_NO_BOX);
     m_pmap = nullptr;
@@ -17,6 +17,11 @@ GameWidget::~GameWidget() noexcept
 
 void GameWidget::draw()
 {
+    draw_game();
+}
+
+void GameWidget::draw_game()
+{
     // Draw background (sky) - top two-thirds as yellow
     fl_rectf(x(), y(), w(), h() * 2 / 3, FL_YELLOW);
 
@@ -28,8 +33,6 @@ void GameWidget::draw()
             const auto& actor(m_pmap->get_at(i));
 
             // Calculate the top-left drawing coordinates for the entity's bounding box.
-            // actor.x and actor.y are relative to the map's origin, which is assumed
-            // to be aligned with the GameWidget's origin (x(), y()).
             int entity_drawing_x = x() + (int)actor.pos.x;
             int entity_drawing_y = y() + (int)actor.pos.y;
 
@@ -84,6 +87,4 @@ void GameWidget::draw()
             }
         }
     }
-    // Call base class to draw children widgets if any (uncomment if applicable)
-    // BaseClass::draw_children();
 }

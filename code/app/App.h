@@ -6,6 +6,7 @@
 #include "../view/MainWindow.h"
 #include "../model/entity_model.h"
 #include "../view_model/entity_view_model.h"
+#include "../view_model/game_view_model.h"
 
 class App {
 public:
@@ -14,7 +15,8 @@ public:
 
 private:
     std::shared_ptr<Entity_Model> model;
-    Entity_View_Model viewModel;
+    Entity_View_Model entityviewModel;
+    GameViewModel gameviewModel;
     MainWindow mainwin;
 
     void initializeCommands();

@@ -26,10 +26,10 @@ void Entity_View_Model::update() {
                 fire(PropertyID::PlayerPositionChanged);
                 break;
             case PropertyID::LevelComplete:
-                fire(PropertyID::LevelStateChanged);
+                fire(PropertyID::LevelComplete);
                 break;
-            case PropertyID::GameOver:
-                fire(PropertyID::GameStateChanged);
+            case PropertyID::PlayerDead:
+                fire(PropertyID::PlayerDead);
                 break;
             case PropertyID::NoChange:
                 break;

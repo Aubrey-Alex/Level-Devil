@@ -22,18 +22,16 @@ public:
 	{
 		m_pmap = pmap;
 	}
-    
 
 protected:
 	void draw() override;
 
 private:
 	Fl_Box* m_box_person;
-
-private:
-	//properties
 	const GameMap* m_pmap;
-    
+
+	// 游戏核心界面绘制
+	void draw_game();
 };
 
 #endif // GAME_WIDGET_H

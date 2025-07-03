@@ -14,19 +14,19 @@ class Door : public Entity {
         }
     };
     
-    class Spike : public Entity {
-    public:
-        Spike(double x, double y): Entity(x, y) {
-            w = 54, h = 13, type = 'S';
-        }
-    };
-    
-    class Wall : public Entity {
-    public:
-        Wall(double x, double y, double width, double height): Entity(x, y) {
-            w = width, h = height, type = 'W';
-        }
-    };
+class Spike : public Entity {
+public:
+    Spike(double x, double y): Entity(x, y) {
+        w = 54, h = 13, type = 'S';
+    }
+};
+
+class Wall : public Entity {
+public:
+    Wall(double x, double y, double width, double height): Entity(x, y) {
+        w = width, h = height, type = 'W';
+    }
+};
 
 class Player : public Entity {
 #define size_w 26

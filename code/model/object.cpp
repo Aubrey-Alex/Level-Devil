@@ -133,23 +133,13 @@ PropertyID Player::update(std::shared_ptr<GameMap>& sp_GameMap) {
         v_Horizontal = 0;
         newX = pos.x;
     }
-    //显示隐藏的刺
-    for (size_t i = 0; i < sp_GameMap->get_size(); ++i) {
-        auto& entity = sp_GameMap->get_at(i);
-        if (entity.type != 'U') continue;
-        if(((newX + w  > entity.pos.x - spike_view) && (newX + w <entity.pos.x))|| ((newX < entity.pos.x + entity.w + spike_view) && (newX > entity.pos.x + entity.w))){
-                entity.type = 'S';
-                break;
-        }
-    }
+    
     // 更新位置
     if (newX != pos.x || newY != pos.y) {
         pos.x = newX;
         pos.y = newY;
         return PropertyID::PlayerPositionChanged;
     }
-
-
+    
     return PropertyID::NoChange;
 }
-

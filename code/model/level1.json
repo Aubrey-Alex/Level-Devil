@@ -3,8 +3,7 @@
     "player": {
       "position": {
         "x": 200,
-        "y": 228,
-        "v":50
+        "y": 228
       }
     },
     "door": {
@@ -15,7 +14,7 @@
     },
     "spikes": [
       {
-        "position": {"x": 400, "y": 253, "is_unvisible":1},
+        "position": {"x": 400, "y": 253},
         "size": {"width": 54, "height": 13}
       }
     ],

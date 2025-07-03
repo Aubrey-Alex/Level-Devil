@@ -21,16 +21,14 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         auto pos = spikeJson["position"];
         int x = pos["x"].get<int>();
         int y = pos["y"].get<int>();
-        int d = pos["is_unvisible"].get<int>();
-        auto spike = std::make_shared<Spike>(x, y, d);
+        auto spike = std::make_shared<Spike>(x, y);
         sp_GameMap->append(spike);
     }
     auto playerJson = jsonData["entities"]["player"]; {
         auto pos = playerJson["position"];
         int x = pos["x"].get<int>();
         int y = pos["y"].get<int>();
-        int v = pos["v"].get<int>();
-        auto player = std::make_shared<Player>(x, y, v);
+        auto player = std::make_shared<Player>(x, y);
         sp_GameMap->append(player);
     }
     auto doorJson = jsonData["entities"]["door"]; {

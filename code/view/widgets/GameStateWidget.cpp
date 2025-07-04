@@ -150,7 +150,7 @@ void GameStateWidget::draw_game_over()
     fl_measure(text, text_w, text_h);
     fl_draw(text, 
             x() + (w() - text_w) / 2,
-            y() + (h() + text_h) / 2);
+            y() + (h() - text_h) / 2);
 
     // 修正提示文本
     fl_font(FL_HELVETICA, 20);
@@ -177,7 +177,7 @@ void GameStateWidget::draw_level_complete()
     fl_measure(text, text_w, text_h);
     fl_draw(text, 
             x() + (w() - text_w) / 2,
-            y() + (h() + text_h) / 2);
+            y() + (h() - text_h) / 2);
 
     // 修正提示文本
     fl_font(FL_HELVETICA, 20);

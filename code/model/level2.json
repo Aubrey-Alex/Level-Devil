@@ -14,11 +14,6 @@
       }
     },
     "spikes": [
-      {
-        "position": { "x": 400, "y": 253 },
-        "visible_dis": 1,
-        "size": { "width": 54, "height": 13 }
-      }
     ],
     "walls": [
       {
@@ -28,8 +23,18 @@
       },
       {
         "position": { "x": 0, "y": 266 },
-        "size": { "width": 800, "height": 134 },
+        "size": { "width": 500, "height": 134 },
         "visible_dis": -1
+      },
+      {
+        "position": { "x": 550, "y": 266 },
+        "size": { "width": 250, "height": 134 },
+        "visible_dis": -1
+      },
+      {
+        "position": { "x": 500, "y": 266 },
+        "size": { "width": 50, "height": 134 },
+        "visible_dis": 1
       }
     ]
   }

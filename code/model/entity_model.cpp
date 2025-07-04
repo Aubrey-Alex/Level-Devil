@@ -13,7 +13,11 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         int y = pos["y"].get<int>();
         int w = size["width"].get<int>();
         int h = size["height"].get<int>();
-        auto wall = std::make_shared<Wall>(x, y, w, h);
+        int visible_dis = -1;
+        if (wallJson.contains("visible_dis")) {
+            visible_dis = wallJson["visible_dis"].get<int>();
+        }
+        auto wall = std::make_shared<Wall>(x, y, w, h, visible_dis);
         sp_GameMap->append(wall);
     }
     auto spikesJson = jsonData["entities"]["spikes"];
@@ -21,8 +25,11 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         auto pos = spikeJson["position"];
         int x = pos["x"].get<int>();
         int y = pos["y"].get<int>();
-        int d = pos["is_unvisible"].get<int>();
-        auto spike = std::make_shared<Spike>(x, y, d);
+        int visible_dis = -1;
+        if (spikeJson.contains("visible_dis")) {
+            visible_dis = spikeJson["visible_dis"].get<int>();
+        }
+        auto spike = std::make_shared<Spike>(x, y, visible_dis);
         sp_GameMap->append(spike);
     }
     auto playerJson = jsonData["entities"]["player"]; {
@@ -42,10 +49,15 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
     }
 }
 
-void Entity_Model::newLevel(int level) {
-    if(level == 1) {
+void Entity_Model::newLevel() {
+    if(currentLevel == 1) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level1.json";
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 2) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level2.json";
         loadMapFromJson(jsonPath.string());
     }
 }

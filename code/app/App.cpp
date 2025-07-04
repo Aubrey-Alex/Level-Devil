@@ -48,6 +48,7 @@ void App::initializeCommands()
     mainwin.set_game_over_command(std::function<void()>(gameviewModel.getGameOverCommand()));
     mainwin.set_complete_level_command(std::function<void()>(gameviewModel.getCompleteLevelCommand()));
     mainwin.set_reset_game_command(std::function<void()>(gameviewModel.getResetGameCommand()));
+    mainwin.set_pass_all_levels_command(std::function<void()>(gameviewModel.getPassAllLevelsCommand())); // 新增：全部通关命令
 }
 
 int App::run(int argc, char** argv)

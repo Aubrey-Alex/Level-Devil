@@ -91,26 +91,23 @@ void MainWindow::game_update()
         }
     }
 
-    if (m_state_widget.get_current_state() == GameStateWidget::State::Dead)
+    if (m_state_widget.get_current_state() == GameStateWidget::State::Dead
+        || m_state_widget.get_current_state() == GameStateWidget::State::Complete
+        || m_state_widget.get_current_state() == GameStateWidget::State::AllComplete)
     {
         if (Fl::get_key(FL_Enter) || Fl::get_key(FL_KP_Enter))
         {
-            if (m_reset_game_command) {
-                m_reset_game_command();
+            if (m_state_widget.get_current_state() == GameStateWidget::State::AllComplete) {
+                exit(0);
+            } else {
+                if (m_reset_game_command) {
+                    m_reset_game_command();
+                }
+                m_state_widget.update_state(GameStateWidget::State::Playing);
+                m_state_widget.hide();
+                m_board.show();
             }
-            return;
-        }
-        return;
-    }
-
-    if (m_state_widget.get_current_state() == GameStateWidget::State::Complete)
-    {
-        // printf("Complete\n");
-        if (Fl::get_key(FL_Enter) || Fl::get_key(FL_KP_Enter))
-        {
-            if (m_reset_game_command) {
-                m_reset_game_command();
-            }
+            redraw();
             return;
         }
         return;
@@ -137,6 +134,11 @@ PropertyNotification MainWindow::get_notification()
                 break;
             case PropertyID::LevelComplete:
                 m_state_widget.update_state(GameStateWidget::State::Complete);
+                m_board.hide();
+                m_state_widget.show();
+                break;
+            case PropertyID::AllLevelComplete:
+                m_state_widget.update_state(GameStateWidget::State::AllComplete);
                 m_board.hide();
                 m_state_widget.show();
                 break;

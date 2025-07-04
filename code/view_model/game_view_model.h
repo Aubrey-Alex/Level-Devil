@@ -14,9 +14,9 @@ public:
         Playing,         // 正在游戏中
         Dead,           // 玩家死亡
         Complete,       // 完成关卡
-        Initialization  // 初始化界面
+        Initialization, // 初始化界面
+        AllComplete     // 全部关卡完成
     };
-
 
     GameViewModel();
     ~GameViewModel() = default;
@@ -26,6 +26,7 @@ public:
     void game_over();   // 转到游戏结束状态
     void complete_level(); // 转到关卡完成状态
     void reset_game();    // 重置到初始化状态
+    void pass_all_levels(); // 新增：全部关卡完成
 
     // 获取当前状态
     GameState get_game_state() const { return m_game_state; }
@@ -44,6 +45,9 @@ public:
     }
     std::function<void()> getResetGameCommand() {
         return [this]() { this->reset_game(); };
+    }
+    std::function<void()> getPassAllLevelsCommand() {
+        return [this]() { this->pass_all_levels(); };
     }
     
 private:

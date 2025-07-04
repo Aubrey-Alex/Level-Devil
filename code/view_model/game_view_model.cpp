@@ -43,6 +43,12 @@ void GameViewModel::reset_game()
     notify_state_changed();
 }
 
+void GameViewModel::pass_all_levels()
+{
+    m_game_state = GameState::AllComplete;
+    notify_state_changed();
+}
+
 void GameViewModel::notify_state_changed()
 {
     switch (m_game_state)
@@ -58,6 +64,9 @@ void GameViewModel::notify_state_changed()
             break;
         case GameState::Initialization:
             fire(PropertyID::Initialization);
+            break;
+        case GameState::AllComplete:
+            fire(PropertyID::AllLevelComplete);
             break;
     }
 }

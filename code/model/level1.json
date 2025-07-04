@@ -4,7 +4,7 @@
       "position": {
         "x": 200,
         "y": 228,
-        "v":50
+        "v": 50
       }
     },
     "door": {
@@ -15,18 +15,21 @@
     },
     "spikes": [
       {
-        "position": {"x": 400, "y": 253, "is_unvisible":1},
-        "size": {"width": 54, "height": 13}
+        "position": { "x": 400, "y": 253 },
+        "visible_dis": 1,
+        "size": { "width": 54, "height": 13 }
       }
     ],
     "walls": [
       {
-        "position": {"x": 0, "y": 0},
-        "size": {"width": 800, "height": 100}
+        "position": { "x": 0, "y": 0 },
+        "size": { "width": 800, "height": 100 },
+        "visible_dis": -1
       },
       {
-        "position": {"x": 0, "y": 266},
-        "size": {"width": 800, "height": 134}
+        "position": { "x": 0, "y": 266 },
+        "size": { "width": 800, "height": 134 },
+        "visible_dis": -1
       }
     ]
   }

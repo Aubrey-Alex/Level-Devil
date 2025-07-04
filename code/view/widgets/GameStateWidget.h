@@ -11,7 +11,8 @@ public:
         Playing,         // 正在游戏中
         Dead,           // 玩家死亡
         Complete,       // 完成关卡
-        Initialization  // 初始化界面
+        Initialization, // 初始化界面
+        AllComplete     // 全部关卡完成
     };
 
 private:
@@ -47,6 +48,7 @@ private:
     void draw_initialization();
     void draw_game_over();
     void draw_level_complete();
+    void draw_all_complete(); // 新增
 };
 
-#endif // GAME_STATE_WIDGET_H 
+#endif // GAME_STATE_WIDGET_H

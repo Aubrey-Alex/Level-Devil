@@ -34,6 +34,7 @@ public:
     void set_game_over_command(std::function<void()>&& cmd) noexcept { m_game_over_command = std::move(cmd); }
     void set_complete_level_command(std::function<void()>&& cmd) noexcept { m_complete_level_command = std::move(cmd); }
     void set_reset_game_command(std::function<void()>&& cmd) noexcept { m_reset_game_command = std::move(cmd); }
+    void set_pass_all_levels_command(std::function<void()>&& cmd) noexcept { m_pass_all_levels_command = std::move(cmd); } // 新增
 
 //notification
     PropertyNotification get_notification();
@@ -62,6 +63,7 @@ private:
     std::function<void()> m_game_over_command;
     std::function<void()> m_complete_level_command;
     std::function<void()> m_reset_game_command;
+    std::function<void()> m_pass_all_levels_command; // 新增
 };
 
 #endif

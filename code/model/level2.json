@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "player": {
+      "position": {
+        "x": 200,
+        "y": 228,
+        "v": 50
+      }
+    },
+    "door": {
+      "position": {
+        "x": 600,
+        "y": 226
+      }
+    },
+    "spikes": [
+    ],
+    "walls": [
+      {
+        "position": { "x": 0, "y": 0 },
+        "size": { "width": 800, "height": 100 },
+        "visible_dis": -1
+      },
+      {
+        "position": { "x": 0, "y": 266 },
+        "size": { "width": 500, "height": 134 },
+        "visible_dis": -1
+      },
+      {
+        "position": { "x": 550, "y": 266 },
+        "size": { "width": 250, "height": 134 },
+        "visible_dis": -1
+      },
+      {
+        "position": { "x": 500, "y": 266 },
+        "size": { "width": 50, "height": 134 },
+        "visible_dis": 1
+      }
+    ]
+  }
+}

@@ -27,12 +27,19 @@ void Entity_View_Model::update() {
                 fire(PropertyID::PlayerPositionChanged);
                 break;
             case PropertyID::LevelComplete:
-                fire(PropertyID::LevelComplete);
+                sp_Entity_Model->setCurrentLevel(sp_Entity_Model->getCurrentLevel() + 1);
+                if (sp_Entity_Model->getCurrentLevel() > 2) {
+                    fire(PropertyID::AllLevelComplete);
+                } else {
+                    fire(PropertyID::LevelComplete);
+                }
                 break;
             case PropertyID::PlayerDead:
                 fire(PropertyID::PlayerDead);
                 break;
             case PropertyID::NoChange:
+                break;
+            default:
                 break;
         }
     }

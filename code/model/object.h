@@ -15,20 +15,27 @@ class Door : public Entity {
     };
     
 class Spike : public Entity {
-private: int visible_dis;
+private:
+    int visible_dis;
 public:
-    Spike(double x, double y,double d = -1): Entity(x, y) {
+    Spike(double x, double y, int d = -1): Entity(x, y) {
         visible_dis = d;
         w = 54, h = 13, type = (visible_dis == -1 ) ? 'S' : 'U';
     }
-    PropertyID Spike::update(std::shared_ptr<GameMap>& sp_GameMap);
+    PropertyID update(std::shared_ptr<GameMap>& sp_GameMap);
 };
 
 class Wall : public Entity {
+private:
+    int visible_dis;
 public:
-    Wall(double x, double y, double width, double height): Entity(x, y) {
-        w = width, h = height, type = 'W';
+    Wall(double x, double y, double width, double height, int d = -1): Entity(x, y) {
+        w = width, h = height;
+        visible_dis = d;
+        type = 'W';
     }
+    int get_visible_dis() const { return visible_dis; }
+    PropertyID update(std::shared_ptr<GameMap>& sp_GameMap);
 };
 
 class Player : public Entity {

@@ -60,6 +60,11 @@ void GameWidget::draw_game()
                     fl_rectf(entity_drawing_x, entity_drawing_y, actor.w, actor.h);
                     break;
                 }
+                case 'H': { // 隐藏墙体显示为背景色
+                    fl_color(255,193,69);
+                    fl_rectf(entity_drawing_x, entity_drawing_y, actor.w, actor.h);
+                    break;
+                }
                 // "D" for Door
                 case 'D': { 
                     // --- 设定40x40的尺寸 ---

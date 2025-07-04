@@ -14,7 +14,6 @@ GameStateWidget::~GameStateWidget() noexcept
 
 void GameStateWidget::draw()
 {
-    // 根据游戏状态调用不同的绘制方法
     switch (m_current_state) {
         case State::Dead:
             draw_game_over();
@@ -25,11 +24,13 @@ void GameStateWidget::draw()
         case State::Initialization:
             draw_initialization();
             break;
+        case State::AllComplete:
+            draw_all_complete();
+            break;
         default:
             break;
     }
 }
-
 void GameStateWidget::draw_initialization()
 {
     // 创建渐变背景 - 从右下角的红色到左上角的紫色
@@ -147,16 +148,14 @@ void GameStateWidget::draw_game_over()
     const char* text = "GAME OVER";
     int text_w = 0, text_h = 0;
     fl_measure(text, text_w, text_h);
-    
-    // 在窗口中央绘制文本
     fl_draw(text, 
             x() + (w() - text_w) / 2,
             y() + (h() - text_h) / 2);
 
-    // 添加提示文本
+    // 修正提示文本
     fl_font(FL_HELVETICA, 20);
     const char* hint = "Press Enter to Restart";
-    fl_measure(hint, text_w, text_h);
+    fl_measure(hint, text_w, text_h); // 复用变量，不要再声明
     fl_draw(hint,
             x() + (w() - text_w) / 2,
             y() + (h() + text_h) / 2 + 40);
@@ -176,17 +175,54 @@ void GameStateWidget::draw_level_complete()
     const char* text = "LEVEL COMPLETE!";
     int text_w = 0, text_h = 0;
     fl_measure(text, text_w, text_h);
-    
-    // 在窗口中央绘制文本
     fl_draw(text, 
             x() + (w() - text_w) / 2,
             y() + (h() - text_h) / 2);
 
-    // 添加提示文本
+    // 修正提示文本
     fl_font(FL_HELVETICA, 20);
     const char* hint = "Press Enter for Next Level";
-    fl_measure(hint, text_w, text_h);
+    fl_measure(hint, text_w, text_h); // 复用变量，不要再声明
     fl_draw(hint,
             x() + (w() - text_w) / 2,
             y() + (h() + text_h) / 2 + 40);
-} 
+}
+
+void GameStateWidget::draw_all_complete()
+{
+    // 创建渐变背景 - 从右下角的蓝色到左上角的紫色
+    for(int i = 0; i < h(); i++) {
+        for(int j = 0; j < w(); j++) {
+            double progress_x = (double)j / w();
+            double progress_y = (double)i / h();
+            double progress = (progress_x + progress_y) / 2.0;
+            int r = 80 + (int)((147 - 80) * progress);
+            int g = 80 + (int)((39 - 80) * progress);
+            int b = 200 + (int)((143 - 200) * progress);
+            fl_color(r, g, b);
+            fl_point(x() + j, y() + i);
+        }
+    }
+    fl_color(FL_WHITE);
+    fl_font(FL_HELVETICA_BOLD, 48);
+    const char* text = "CONGRATULATIONS!";
+    int text_w = 0, text_h = 0;
+    fl_measure(text, text_w, text_h);
+    fl_draw(text, 
+            x() + (w() - text_w) / 2,
+            y() + (h() - text_h) / 2 - 40);
+
+    fl_font(FL_HELVETICA_BOLD, 32);
+    const char* subtext = "ALL LEVELS COMPLETE";
+    fl_measure(subtext, text_w, text_h); // 复用变量，不要再声明
+    fl_draw(subtext,
+            x() + (w() - text_w) / 2,
+            y() + (h() - text_h) / 2 + 20);
+
+    fl_font(FL_HELVETICA, 20);
+    const char* hint = "Press Enter to Exit";
+    fl_measure(hint, text_w, text_h); // 复用变量，不要再声明
+    fl_draw(hint,
+            x() + (w() - text_w) / 2,
+            y() + (h() + text_h) / 2 + 60);
+}

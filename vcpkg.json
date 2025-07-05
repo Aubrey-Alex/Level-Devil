@@ -1,6 +1,9 @@
 {
+  "name": "level-devil",
+  "version-string": "1.0.0",
   "dependencies": [
     "fltk",
-    "nlohmann-json"
+    "nlohmann-json",
+    "gtest"
   ]
 }

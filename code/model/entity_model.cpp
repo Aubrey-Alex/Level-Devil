@@ -47,6 +47,21 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         auto door = std::make_shared<Door>(x, y);
         sp_GameMap->append(door);
     }
+    auto movingspikesJson = jsonData["entities"].contains("moving_spikes") ? jsonData["entities"]["moving_spikes"] : nlohmann::json::array();
+    for (const auto& mspikeJson : movingspikesJson) {
+        auto pos = mspikeJson["position"];
+        int x = pos["x"].get<int>();
+        int y = pos["y"].get<int>();
+        double left = mspikeJson["left_bound"].get<double>();
+        double right = mspikeJson["right_bound"].get<double>();
+        double speed = mspikeJson["speed"].get<double>();
+        int visible_dis = -1;
+        if (mspikeJson.contains("visible_dis")) {
+            visible_dis = mspikeJson["visible_dis"].get<int>();
+        }
+        auto mspike = std::make_shared<MovingSpike>(x, y, left, right, speed, visible_dis);
+        sp_GameMap->append(mspike);
+    }
 }
 
 void Entity_Model::newLevel() {
@@ -58,6 +73,11 @@ void Entity_Model::newLevel() {
     else if(currentLevel == 2) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level2.json";
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 3) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level3.json";
         loadMapFromJson(jsonPath.string());
     }
 }

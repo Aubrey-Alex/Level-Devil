@@ -22,6 +22,7 @@ public:
         visible_dis = d;
         w = 54, h = 13, type = (visible_dis == -1 ) ? 'S' : 'U';
     }
+    int get_visible_dis() const { return visible_dis; }
     PropertyID update(std::shared_ptr<GameMap>& sp_GameMap);
 };
 
@@ -100,5 +101,21 @@ public:
     bool checkCollisionRight(double x, double y, std::shared_ptr<GameMap>& sp_GameMap);
 
     PropertyID update(std::shared_ptr<GameMap>& sp_GameMap);
+};
+
+class MovingSpike : public Entity {
+private:
+    int visible_dis;
+    double speed;
+    double left_bound, right_bound;
+    bool moving_right;
+public:
+    MovingSpike(double x, double y, double left, double right, double spd, int d = -1)
+        : Entity(x, y), visible_dis(d), speed(spd), left_bound(left), right_bound(right), moving_right(true)
+    {
+        w = 54, h = 13, type = (visible_dis == -1) ? 'M' : 'U';
+    }
+    void update(double player_x);
+    int get_visible_dis() const { return visible_dis; }
 };
 #endif

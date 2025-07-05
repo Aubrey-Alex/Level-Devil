@@ -54,14 +54,29 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
 }
 
 void Entity_Model::newLevel() {
+    printf("Loading level %d\n", currentLevel); // 调试信息
     if(currentLevel == 1) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level1.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
         loadMapFromJson(jsonPath.string());
     }
     else if(currentLevel == 2) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level2.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 3) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level3.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 4) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level4.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
         loadMapFromJson(jsonPath.string());
     }
     else if(currentLevel == 3) {

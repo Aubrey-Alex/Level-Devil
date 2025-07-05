@@ -1,8 +1,10 @@
 #include "GameWidget.h"
 #include <FL/fl_draw.h>
 #include <FL/Fl.H>
+#include <sstream>
 
 GameWidget::GameWidget(int x, int y, int w, int h, const char *l) : Fl_Group(x, y, w, h, l)
+    , m_death_count(0)
 {
     m_box_person = new Fl_Box(x, y, w, h, l);
     end();
@@ -18,6 +20,7 @@ GameWidget::~GameWidget() noexcept
 void GameWidget::draw()
 {
     draw_game();
+    draw_death_count(); // 绘制死亡次数
 }
 
 void GameWidget::draw_game()
@@ -123,4 +126,31 @@ void GameWidget::draw_game()
             }
         }
     }
+}
+
+void GameWidget::draw_death_count()
+{
+    // 设置字体和颜色
+    fl_font(FL_HELVETICA_BOLD, 16);
+    fl_color(FL_BLACK);
+    
+    // 准备显示文本
+    std::ostringstream oss;
+    oss << "死亡次数: " << m_death_count;
+    std::string text = oss.str();
+    
+    // 在左上角绘制死亡次数
+    int text_x = x() + 10;
+    int text_y = y() + 25;
+    
+    // 绘制背景框
+    fl_color(137,99,28);
+    int text_width = fl_width(text.c_str());
+    int text_height = fl_height();
+    fl_rectf(text_x - 5, text_y - text_height - 5, text_width + 10, text_height + 10);
+    
+    
+    // 绘制文本
+    fl_color(FL_BLACK);
+    fl_draw(text.c_str(), text_x, text_y);
 }

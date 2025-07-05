@@ -4,6 +4,7 @@
 #include "../common/notifier.h"
 #include "widgets/GameWidget.h"
 #include "widgets/GameStateWidget.h"
+#include "../view_model/game_view_model.h"
 #include <functional> 
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl.H>
@@ -42,6 +43,9 @@ public:
 //methods
     GameWidget& get_board() noexcept { return m_board; }
     GameStateWidget& get_state_widget() noexcept { return m_state_widget; }
+    
+    // 设置GameViewModel引用
+    void set_game_view_model(GameViewModel* game_view_model) noexcept { m_game_view_model = game_view_model; }
 
 protected:
 //callbacks
@@ -51,6 +55,7 @@ protected:
 private:
     GameWidget m_board;
     GameStateWidget m_state_widget;
+    GameViewModel* m_game_view_model; // GameViewModel的引用
 
 private:
 //commands

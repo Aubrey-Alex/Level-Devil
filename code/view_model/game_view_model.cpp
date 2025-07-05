@@ -2,6 +2,7 @@
 
 GameViewModel::GameViewModel()
     : m_game_state(GameState::Initialization)
+    , m_death_count(0)
 {
 }
 
@@ -15,6 +16,7 @@ void GameViewModel::start_game()
     if (m_game_state == GameState::Initialization)
     {
         m_game_state = GameState::Playing;
+        reset_death_count();
         notify_state_changed();
     }
 }

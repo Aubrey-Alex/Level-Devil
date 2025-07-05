@@ -80,8 +80,8 @@ jobs:
       uses: dorny/test-reporter@v1
       if: always()
       with:
-        name: Test Results (Debug) # 报告的名称
-        path: ${{ github.workspace }}/build/test_results.xml
+        name: Test Results # 报告的名称
+        path: build/test_results.xml
         reporter: java-junit
         # [修复] 如果找不到测试报告文件或报告为空，不要让工作流失败
         fail-on-error: false

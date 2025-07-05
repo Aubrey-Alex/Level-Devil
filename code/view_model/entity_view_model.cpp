@@ -28,7 +28,7 @@ void Entity_View_Model::update() {
                 break;
             case PropertyID::LevelComplete:
                 sp_Entity_Model->setCurrentLevel(sp_Entity_Model->getCurrentLevel() + 1);
-                if (sp_Entity_Model->getCurrentLevel() > 3) {
+                if (sp_Entity_Model->getCurrentLevel() > 4) {
                     fire(PropertyID::AllLevelComplete);
                 } else {
                     fire(PropertyID::LevelComplete);

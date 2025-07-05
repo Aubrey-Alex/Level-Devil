@@ -160,14 +160,6 @@ PropertyID Player::update(std::shared_ptr<GameMap>& sp_GameMap) {
             }
             isGrounded = true;
         }
-    // 显示隐藏的刺：player的x坐标超过刺的visible_dis时出现
-    for (size_t i = 0; i < sp_GameMap->get_size(); ++i) {
-        auto& entity = sp_GameMap->get_at(i);
-        if (entity.type != 'U') continue;
-        if (pos.x > static_cast<Spike*>(&entity)->get_visible_dis()) {
-            entity.type = 'S';
-        }
-    }
 
     // 墙体靠近后隐藏逻辑：player的x坐标超过visible_dis时隐藏，且一旦隐藏不会再恢复
     for (size_t i = 0; i < sp_GameMap->get_size(); ++i) {

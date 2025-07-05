@@ -13,13 +13,6 @@
         "y": 226
       }
     },
-    "spikes": [
-      {
-        "position": { "x": 350, "y": 253 },
-        "visible_dis": -1,
-        "size": { "width": 54, "height": 13 }
-      }
-    ],
     "walls": [
       {
         "position": { "x": 0, "y": 0 },
@@ -39,6 +32,13 @@
         "right_bound": 700,
         "speed": -5,
         "visible_dis": 400
+      },
+      {
+        "position": { "x": 300, "y": 253 },
+        "left_bound": 500,
+        "right_bound": 700,
+        "speed": 0,
+        "visible_dis": 0
       }
     ]
   }

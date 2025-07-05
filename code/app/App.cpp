@@ -20,8 +20,25 @@ void App::setupViewModel()
     gameviewModel.add_notification([this](PropertyID propertyId) {
         this->onGameViewModelNotification(propertyId);
     });
+    
+    // 让GameViewModel监听Entity_View_Model的通知，在死亡时增加计数
+    entityviewModel.add_notification([this](PropertyID propertyId) {
+        if (propertyId == PropertyID::PlayerDead) {
+            // 直接增加死亡次数，不改变游戏状态
+            this->gameviewModel.increment_death_count();
+            // 然后调用game_over来改变状态
+            this->gameviewModel.game_over();
+        }
+    });
+    
+    // 设置MainWindow的GameViewModel引用
+    mainwin.set_game_view_model(&gameviewModel);
+    
     // 设置GameWidget的地图数据
     mainwin.get_board().set_map(model->getGameMap().get());
+    
+    // 设置初始死亡次数显示
+    mainwin.get_board().set_death_count(gameviewModel.get_death_count());
 }
 
 void App::onGameViewModelNotification(PropertyID propertyId)
@@ -29,6 +46,8 @@ void App::onGameViewModelNotification(PropertyID propertyId)
     if (propertyId == PropertyID::Initialization) // Assuming you have a PropertyID::Initialization
     {
         entityviewModel.reset();
+        // 更新死亡次数显示
+        mainwin.get_board().set_death_count(gameviewModel.get_death_count());
     }
 }
 

@@ -30,6 +30,11 @@ public:
 
     // 获取当前状态
     GameState get_game_state() const { return m_game_state; }
+    
+    // 死亡次数相关方法
+    int get_death_count() const { return m_death_count; }
+    void increment_death_count() { m_death_count++; }
+    void reset_death_count() { m_death_count = 0; }
 
     // 通知相关
     void set_property_notify(PropertyNotification&& ntf);
@@ -53,6 +58,7 @@ public:
 private:
     GameState m_game_state;
     PropertyNotification m_ntf;
+    int m_death_count; // 死亡次数计数器
 
     // 通知视图状态改变
     void notify_state_changed();

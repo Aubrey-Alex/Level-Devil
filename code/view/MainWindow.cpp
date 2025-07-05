@@ -5,7 +5,8 @@
 // Constructor needs to initialize m_board
 MainWindow::MainWindow(int w, int h, const char *title) : Fl_Double_Window(w, h, title),
     m_board(0, 0, w, h),
-    m_state_widget(0, 0, w, h)
+    m_state_widget(0, 0, w, h),
+    m_game_view_model(nullptr)
 {
     end(); // Call end() after adding all children
     
@@ -34,6 +35,7 @@ void MainWindow::timeout_cb(void* pv)
 // game_update 函数
 void MainWindow::game_update()
 {
+    redraw();
     // 如果当前是初始化状态，只处理Enter键
     if (m_state_widget.get_current_state() == GameStateWidget::State::Initialization)
     {
@@ -126,11 +128,19 @@ PropertyNotification MainWindow::get_notification()
                 m_state_widget.update_state(GameStateWidget::State::Playing);
                 m_state_widget.hide();
                 m_board.show();
+                // 更新死亡次数显示
+                if (m_game_view_model) {
+                    m_board.set_death_count(m_game_view_model->get_death_count());
+                }
                 break;
             case PropertyID::PlayerDead:
                 m_state_widget.update_state(GameStateWidget::State::Dead);
                 m_board.hide();
                 m_state_widget.show();
+                // 更新死亡次数显示
+                if (m_game_view_model) {
+                    m_board.set_death_count(m_game_view_model->get_death_count());
+                }
                 break;
             case PropertyID::LevelComplete:
                 m_state_widget.update_state(GameStateWidget::State::Complete);

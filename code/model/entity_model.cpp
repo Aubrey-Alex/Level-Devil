@@ -1,6 +1,7 @@
 #include "entity_model.h"
 
 void Entity_Model::loadMapFromJson(const std::string& filename) {
+    sp_GameMap->clear(); // Clear the existing map before loading a new one
     std::ifstream file(filename);
     nlohmann::json jsonData;
     file >> jsonData;
@@ -20,18 +21,6 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         auto wall = std::make_shared<Wall>(x, y, w, h, visible_dis);
         sp_GameMap->append(wall);
     }
-    auto spikesJson = jsonData["entities"]["spikes"];
-    for (const auto& spikeJson : spikesJson) {
-        auto pos = spikeJson["position"];
-        int x = pos["x"].get<int>();
-        int y = pos["y"].get<int>();
-        int visible_dis = -1;
-        if (spikeJson.contains("visible_dis")) {
-            visible_dis = spikeJson["visible_dis"].get<int>();
-        }
-        auto spike = std::make_shared<Spike>(x, y, visible_dis);
-        sp_GameMap->append(spike);
-    }
     auto playerJson = jsonData["entities"]["player"]; {
         auto pos = playerJson["position"];
         int x = pos["x"].get<int>();
@@ -47,17 +36,47 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         auto door = std::make_shared<Door>(x, y);
         sp_GameMap->append(door);
     }
+    auto movingspikesJson = jsonData["entities"].contains("moving_spikes") ? jsonData["entities"]["moving_spikes"] : nlohmann::json::array();
+    for (const auto& mspikeJson : movingspikesJson) {
+        auto pos = mspikeJson["position"];
+        int x = pos["x"].get<int>();
+        int y = pos["y"].get<int>();
+        double left = mspikeJson["left_bound"].get<double>();
+        double right = mspikeJson["right_bound"].get<double>();
+        double speed = mspikeJson["speed"].get<double>();
+        int visible_dis = -1;
+        if (mspikeJson.contains("visible_dis")) {
+            visible_dis = mspikeJson["visible_dis"].get<int>();
+        }
+        auto mspike = std::make_shared<MovingSpike>(x, y, left, right, speed, visible_dis);
+        sp_GameMap->append(mspike);
+    }
 }
 
 void Entity_Model::newLevel() {
+    printf("Loading level %d\n", currentLevel); // 调试信息
     if(currentLevel == 1) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level1.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
         loadMapFromJson(jsonPath.string());
     }
     else if(currentLevel == 2) {
         std::filesystem::path currentFile = __FILE__;
         auto jsonPath = currentFile.parent_path() / "level2.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 3) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level3.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
+        loadMapFromJson(jsonPath.string());
+    }
+    else if(currentLevel == 4) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level4.json";
+        printf("Loading file: %s\n", jsonPath.string().c_str()); // 调试信息
         loadMapFromJson(jsonPath.string());
     }
 }

@@ -2,14 +2,14 @@
   "entities": {
     "player": {
       "position": {
-        "x": 200,
+        "x": 100,
         "y": 228,
         "v": 50
       }
     },
     "door": {
       "position": {
-        "x": 600,
+        "x": 700,
         "y": 226
       }
     },
@@ -27,11 +27,18 @@
     ],
     "moving_spikes": [
       {
-        "position": { "x": 400, "y": 253 },
+        "position": { "x": 300, "y": 253 },
+        "left_bound": 500,
+        "right_bound": 700,
+        "speed": -5,
+        "visible_dis": 400
+      },
+      {
+        "position": { "x": 300, "y": 253 },
         "left_bound": 500,
         "right_bound": 700,
         "speed": 0,
-        "visible_dis":350
+        "visible_dis": 0
       }
     ]
   }

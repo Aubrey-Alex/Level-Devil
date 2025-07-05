@@ -1,6 +1,7 @@
 #include "entity_model.h"
 
 void Entity_Model::loadMapFromJson(const std::string& filename) {
+    sp_GameMap->clear(); // Clear the existing map before loading a new one
     std::ifstream file(filename);
     nlohmann::json jsonData;
     file >> jsonData;
@@ -19,18 +20,6 @@ void Entity_Model::loadMapFromJson(const std::string& filename) {
         }
         auto wall = std::make_shared<Wall>(x, y, w, h, visible_dis);
         sp_GameMap->append(wall);
-    }
-    auto spikesJson = jsonData["entities"]["spikes"];
-    for (const auto& spikeJson : spikesJson) {
-        auto pos = spikeJson["position"];
-        int x = pos["x"].get<int>();
-        int y = pos["y"].get<int>();
-        int visible_dis = -1;
-        if (spikeJson.contains("visible_dis")) {
-            visible_dis = spikeJson["visible_dis"].get<int>();
-        }
-        auto spike = std::make_shared<Spike>(x, y, visible_dis);
-        sp_GameMap->append(spike);
     }
     auto playerJson = jsonData["entities"]["player"]; {
         auto pos = playerJson["position"];

@@ -13,18 +13,6 @@ class Door : public Entity {
             w = 40, h = 40, type = 'D';
         }
     };
-    
-class Spike : public Entity {
-private:
-    int visible_dis;
-public:
-    Spike(double x, double y, int d = -1): Entity(x, y) {
-        visible_dis = d;
-        w = 54, h = 13, type = (visible_dis == -1 ) ? 'S' : 'U';
-    }
-    int get_visible_dis() const { return visible_dis; }
-    PropertyID update(std::shared_ptr<GameMap>& sp_GameMap);
-};
 
 class Wall : public Entity {
 private:
@@ -113,7 +101,7 @@ public:
     MovingSpike(double x, double y, double left, double right, double spd, int d = -1)
         : Entity(x, y), visible_dis(d), speed(spd), left_bound(left), right_bound(right), moving_right(true)
     {
-        w = 54, h = 13, type = (visible_dis == -1) ? 'M' : 'U';
+        w = 54, h = 13, type = (visible_dis == -1) ? 'S' : 'U';
     }
     void update(double player_x);
     int get_visible_dis() const { return visible_dis; }

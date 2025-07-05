@@ -16,9 +16,9 @@ public:
         // sp_Entity_Model->newLevel(1);
     }
     void reset(){
-        if (sp_Entity_Model && sp_Entity_Model->getGameMap() && sp_Entity_Model->getGameMap()->get_size() > 0) { // Check if model and map exist and are not empty
-            sp_Entity_Model->getGameMap()->clear(); // Assuming your GameMap class has a clear() method
-        }
+        // if (sp_Entity_Model && sp_Entity_Model->getGameMap() && sp_Entity_Model->getGameMap()->get_size() > 0) { // Check if model and map exist and are not empty
+        //     sp_Entity_Model->getGameMap()->clear(); // Assuming your GameMap class has a clear() method
+        // }
         sp_Entity_Model->newLevel();
     }
     void startMoveLeft() {

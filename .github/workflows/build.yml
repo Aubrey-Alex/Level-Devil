@@ -36,23 +36,13 @@ jobs:
       run: |
         cmake -B ${{ github.workspace }}/build -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
 
-    - name: Show vcpkg install log on failure
-      # 仅当上一步（id: configure_cmake）失败时才执行此步骤
-      if: steps.configure_cmake.outcome == 'failure'
-      shell: powershell
-      run: |
-        echo "================ VCPKG INSTALL LOG ================"
-        type ${{ github.workspace }}\build\vcpkg-manifest-install.log
-        echo "==================================================="
-        exit 1 # 打印完日志后，让整个工作流失败
-
     - name: Build Debug
       run: cmake --build ${{github.workspace}}/build --config Debug
 
     - name: Test Debug
       working-directory: ${{github.workspace}}/build
       run: |
-        ctest -C Debug --output-on-failure --verbose --output-junit test_results.xml
+        ctest --test-dir . -C Debug --output-on-failure --verbose --output-junit test_results.xml
         
     - name: Publish Test Results
       uses: dorny/test-reporter@v1

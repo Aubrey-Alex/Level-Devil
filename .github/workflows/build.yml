@@ -10,6 +10,11 @@ jobs:
   build:
     runs-on: windows-latest
 
+        # --- 新增的权限设置 ---
+    permissions:
+      checks: write          # 允许 action 写入 "Checks" 信息（也就是测试报告）
+      pull-requests: write   # 如果你希望它在 Pull Request 中留言报告，这个也需要
+
     steps:
     - uses: actions/checkout@v4
 

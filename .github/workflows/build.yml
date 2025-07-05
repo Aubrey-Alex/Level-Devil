@@ -19,10 +19,22 @@ jobs:
         vcpkgGitCommitId: '501db0f17ef6df184fcdbfbe0f87cde2313b6ab1'
 
     - name: Configure CMake
-      # 使用 shell: powershell 来确保语法一致性，并用双引号包裹整个路径
       shell: powershell
+      # 我们让这个步骤即使失败也继续，以便能执行下一步打印日志
+      continue-on-error: true 
+      id: configure_cmake # 给这个步骤一个id，方便后面判断它是否失败
       run: |
         cmake -B ${{ github.workspace }}/build -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+
+    - name: Show vcpkg install log on failure
+      # 仅当上一步（id: configure_cmake）失败时才执行此步骤
+      if: steps.configure_cmake.outcome == 'failure'
+      shell: powershell
+      run: |
+        echo "================ VCPKG INSTALL LOG ================"
+        type ${{ github.workspace }}\build\vcpkg-manifest-install.log
+        echo "==================================================="
+        exit 1 # 打印完日志后，让整个工作流失败
 
     - name: Build Debug
       run: cmake --build ${{github.workspace}}/build --config Debug

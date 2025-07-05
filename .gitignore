@@ -3,3 +3,5 @@ command.bat
 make.bat
 .vscode/
 doc/
+test.bat
+vcpkg_installed/

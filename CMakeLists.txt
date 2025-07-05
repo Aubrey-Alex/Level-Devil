@@ -14,6 +14,9 @@ endif()
 # 查找依赖包
 find_package(FLTK CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+
+enable_testing()
 
 # 添加子目录
 add_subdirectory(code)

@@ -55,7 +55,7 @@ jobs:
       with:
         name: Test Results
         path: build/test_results.xml
-        reporter: jest-junit # 指定报告的格式是 JUnit
+        reporter: java-junit # 指定报告的格式是 JUnit
         
     - name: Upload Debug Artifacts
       if: success()

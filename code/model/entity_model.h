@@ -12,6 +12,7 @@ private:
     std::shared_ptr<GameMap> sp_GameMap;
     int currentLevel = 1; // 当前关卡编号
 public:
+    int MovingSpikeCount = 0; // 记录当前关卡中移动刺的数量
     Entity_Model(): sp_GameMap(std::make_shared<GameMap>()) {}
     int getCurrentLevel() const { return currentLevel; }
     void setCurrentLevel(int lv) { currentLevel = lv; }

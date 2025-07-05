@@ -34,6 +34,7 @@ void MainWindow::timeout_cb(void* pv)
 // game_update 函数
 void MainWindow::game_update()
 {
+    redraw();
     // 如果当前是初始化状态，只处理Enter键
     if (m_state_widget.get_current_state() == GameStateWidget::State::Initialization)
     {

@@ -15,6 +15,9 @@ jobs:
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11
+      with:
+        # 使用一个新的、有效的 commit ID
+        vcpkgGitCommitId: '2a15915758373b5b63432093e98f4b7a19532840'
 
     - name: Configure CMake
       shell: powershell

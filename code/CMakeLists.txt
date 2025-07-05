@@ -1,49 +1,62 @@
+# 预编译头
 add_library(precompiled INTERFACE)
 target_precompile_headers(precompiled INTERFACE precomp.h)
 
-find_package(FLTK CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
+# 核心逻辑库
+add_library(core_logic STATIC
+    common/notifier.cpp
+    model/entity_model.cpp
+    model/object.cpp
+)
+target_include_directories(core_logic PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+target_link_libraries(core_logic PUBLIC nlohmann_json::nlohmann_json)
 
+
+# 主程序可执行文件
 add_executable(${PROJECT_NAME}
     main.cpp
     app/App.cpp
-    app/App.h
-    common/notifier.cpp
-    common/notifier.h
-    common/property_ids.h
-    common/Entity.h
-    common/game_map.h
-    model/entity_model.cpp
-    model/entity_model.h
-    model/object.cpp
-    model/object.h
     view/MainWindow.cpp
-    view/MainWindow.h
     view/widgets/GameWidget.cpp
-    view/widgets/GameWidget.h
     view/widgets/GameStateWidget.cpp
-    view/widgets/GameStateWidget.h
     view_model/entity_view_model.cpp
-    view_model/entity_view_model.h
     view_model/game_view_model.cpp
-    view_model/game_view_model.h
-    precomp.h
 )
-
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
-
+# 修正: 使用 vcpkg 提示的全小写 fltk 目标
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    core_logic
     fltk
     fltk_forms
     fltk_images
-    nlohmann_json::nlohmann_json
     precompiled
 )
 
+
+# 配置文件
 configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/Model/level1.json
-    ${CMAKE_CURRENT_BINARY_DIR}/level1.json
+    model/level1.json
+    ${CMAKE_BINARY_DIR}/level1.json
     COPYONLY
 )
+
+
+# --- 测试部分 ---
+enable_testing()
+
+add_executable(level_devil_tests
+    tests/entity_model_test.cpp
+)
+
+# 修正: 使用 vcpkg 输出中提示的 GTest::gtest 和 GTest::gtest_main 目标
+target_link_libraries(level_devil_tests PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
+
+add_test(NAME level_devil_tests COMMAND level_devil_tests)

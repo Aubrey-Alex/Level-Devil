@@ -80,6 +80,11 @@ void Entity_Model::newLevel() {
         auto jsonPath = currentFile.parent_path() / "level3.json";
         loadMapFromJson(jsonPath.string());
     }
+    else if(currentLevel == 4) {
+        std::filesystem::path currentFile = __FILE__;
+        auto jsonPath = currentFile.parent_path() / "level4.json";
+        loadMapFromJson(jsonPath.string());
+    }
 }
 
 PropertyID Entity_Model::update() {

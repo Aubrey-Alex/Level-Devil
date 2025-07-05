@@ -43,20 +43,62 @@ configure_file(
     ${CMAKE_BINARY_DIR}/level1.json
     COPYONLY
 )
+configure_file(
+    model/level2.json
+    ${CMAKE_BINARY_DIR}/level2.json
+    COPYONLY
+)
+configure_file(
+    model/level3.json
+    ${CMAKE_BINARY_DIR}/level3.json
+    COPYONLY
+)
+configure_file(
+    model/level4.json
+    ${CMAKE_BINARY_DIR}/level4.json
+    COPYONLY
+)
 
 
-# # --- 测试部分 ---
-# enable_testing()
+# --- 测试部分 ---
+add_executable(entity_model_test
+    tests/entity_model_test.cpp
+)
+    
+add_executable(object_test
+    tests/object_test.cpp
+)
 
-# add_executable(level_devil_tests
-#     tests/entity_model_test.cpp
-# )
+add_executable(collision_test
+    tests/collision_test.cpp
+)
 
-# # 修正: 使用 vcpkg 输出中提示的 GTest::gtest 和 GTest::gtest_main 目标
-# target_link_libraries(level_devil_tests PRIVATE
-#     core_logic
-#     GTest::gtest
-#     GTest::gtest_main
-# )
+add_executable(level_loading_test
+    tests/level_loading_test.cpp
+)
+# 修正: 使用 vcpkg 输出中提示的 GTest::gtest 和 GTest::gtest_main 目标
+target_link_libraries(entity_model_test PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
+target_link_libraries(object_test PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
+target_link_libraries(collision_test PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
+target_link_libraries(level_loading_test PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
 
-# add_test(NAME level_devil_tests COMMAND level_devil_tests)
+add_test(NAME entity_model_test COMMAND entity_model_test)
+add_test(NAME object_test COMMAND object_test)
+add_test(NAME collision_test COMMAND collision_test)
+add_test(NAME level_loading_test COMMAND level_loading_test)

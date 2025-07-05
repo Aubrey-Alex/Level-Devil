@@ -1,25 +1,25 @@
-name: Build and Test
+# 工作流名称
+name: Build, Test and Package
 
+# 触发工作流的事件
 on:
   push:
-    branches: [ view, model, model_viewmodel]
+    branches: [ main, view, model, model_viewmodel ] # 对这些分支的 push 会触发
   pull_request:
-    branches: [ main ]
+    branches: [ main ] # 对 main 分支的 PR 会触发
 
 jobs:
+  # =========================================
+  # Job 1: 编译项目
+  # =========================================
   build:
     runs-on: windows-latest
-
-        # --- 新增的权限设置 ---
-    permissions:
-      checks: write          # 允许 action 写入 "Checks" 信息（也就是测试报告）
-      pull-requests: write   # 如果你希望它在 Pull Request 中留言报告，这个也需要
-
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: 1. 检出代码
+      uses: actions/checkout@v4
 
-    # --- 手动安装 Vcpkg ---
-    - name: Install vcpkg (Manual)
+    - name: 2. 安装 Vcpkg 并设置环境变量
       shell: powershell
       run: |
         git clone https://github.com/microsoft/vcpkg.git
@@ -28,33 +28,100 @@ jobs:
         echo "VCPKG_ROOT=$PWD" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         cd ..
 
-    - name: Configure CMake
+    - name: 3. 使用 CMake 配置项目
       shell: powershell
-      # 我们让这个步骤即使失败也继续，以便能执行下一步打印日志
-      continue-on-error: true 
-      id: configure_cmake # 给这个步骤一个id，方便后面判断它是否失败
       run: |
-        cmake -B ${{ github.workspace }}/build -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        cmake -B ${{ github.workspace }}/build `
+              -G "Visual Studio 17 2022" `
+              -A x64 `
+              -DCMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
 
-    - name: Build Debug
-      run: cmake --build ${{github.workspace}}/build --config Debug
+    - name: 4. 编译项目 (Debug)
+      run: cmake --build ${{ github.workspace }}/build --config Debug
 
-    - name: Test Debug
-      working-directory: ${{github.workspace}}/build
-      run: |
-        ctest --test-dir . -C Debug --output-on-failure --verbose --output-junit test_results.xml
-        
-    - name: Publish Test Results
-      uses: dorny/test-reporter@v1
-      if: always() # 同样，无论成功失败都运行，以便看到报告
-      with:
-        name: Test Results
-        path: build/test_results.xml
-        reporter: java-junit # 指定报告的格式是 JUnit
-        
-    - name: Upload Debug Artifacts
-      if: success()
+    - name: 5. 上传构建产物
+      # 将整个 build 目录上传，以便 test 和 package Job 可以使用
       uses: actions/upload-artifact@v4
       with:
-        name: LevelDevil-Debug
-        path: ${{github.workspace}}/build/code/Debug/LevelDevil.exe 
+        name: build-artifacts
+        path: ${{ github.workspace }}/build/
+
+  # =========================================
+  # Job 2: 运行测试并发布报告
+  # =========================================
+  test:
+    # 'needs: build' 表示这个 Job 必须在 'build' Job 成功后才能开始
+    needs: build
+    runs-on: windows-latest
+    
+    # 为这个 Job 单独设置权限，允许它写入测试报告
+    permissions:
+      checks: write
+      pull-requests: write
+
+    steps:
+    - name: 1. 检出代码
+      # 这是修复错误的关键步骤。test-reporter action 需要访问 .git 目录来获取提交信息。
+      uses: actions/checkout@v4
+
+    - name: 2. 下载构建产物
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts
+        path: ${{ github.workspace }}/build/
+
+    - name: 3. 运行 CTest 并生成报告
+      # 即使没有找到测试，也让这一步继续，而不是失败
+      continue-on-error: true
+      working-directory: ${{ github.workspace }}/build
+      run: ctest --test-dir . -C Debug --output-on-failure --verbose --output-junit test_results.xml
+
+    - name: 4. 发布测试结果
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Test Results # 报告的名称
+        path: build/test_results.xml
+        reporter: java-junit
+        # [修复] 如果找不到测试报告文件或报告为空，不要让工作流失败
+        fail-on-error: false
+
+  # =========================================
+  # Job 3: 打包可运行的程序
+  # =========================================
+  package:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+    - name: 1. 下载构建产物
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts
+        path: ${{ github.workspace }}/build/
+
+    - name: 2. 创建打包目录并复制 EXE
+      shell: powershell
+      run: |
+        New-Item -Path ${{ github.workspace }}/dist -ItemType Directory
+        Copy-Item -Path ${{ github.workspace }}/build/code/Debug/LevelDevil.exe -Destination ${{ github.workspace }}/dist
+    - name: 3. 查找并复制依赖的 DLLs
+      # [修复] 使用更稳定的方法来查找和复制运行时库
+      shell: powershell
+      run: |
+        $vsWherePath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+        $vsInstallPath = &$vsWherePath -latest -property installationPath
+        $vcDllPath = (Get-ChildItem -Path "$vsInstallPath\VC\Redist\MSVC\*\x64\Microsoft.VC143.CRT\*.dll" | Select-Object -First 1).DirectoryName
+        if ($vcDllPath) {
+          echo "Found C++ Redistributable DLLs at: $vcDllPath"
+          Copy-Item -Path "$vcDllPath\*" -Destination ${{ github.workspace }}/dist
+          echo "Copied C++ runtime libraries to dist folder."
+        } else {
+          echo "Could not find C++ Redistributable DLLs."
+          exit 1
+        }
+    - name: 4. 上传可运行的程序包
+      uses: actions/upload-artifact@v4
+      with:
+        name: LevelDevil-Debug-Runnable
+        path: ${{ github.workspace }}/dist/

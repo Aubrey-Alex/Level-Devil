@@ -45,18 +45,18 @@ configure_file(
 )
 
 
-# # --- 测试部分 ---
-# enable_testing()
+# --- 测试部分 ---
+enable_testing()
 
-# add_executable(level_devil_tests
-#     tests/entity_model_test.cpp
-# )
+add_executable(level_devil_tests
+    tests/entity_model_test.cpp
+)
 
-# # 修正: 使用 vcpkg 输出中提示的 GTest::gtest 和 GTest::gtest_main 目标
-# target_link_libraries(level_devil_tests PRIVATE
-#     core_logic
-#     GTest::gtest
-#     GTest::gtest_main
-# )
+# 修正: 使用 vcpkg 输出中提示的 GTest::gtest 和 GTest::gtest_main 目标
+target_link_libraries(level_devil_tests PRIVATE
+    core_logic
+    GTest::gtest
+    GTest::gtest_main
+)
 
-# add_test(NAME level_devil_tests COMMAND level_devil_tests)
+add_test(NAME level_devil_tests COMMAND level_devil_tests)

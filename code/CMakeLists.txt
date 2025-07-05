@@ -46,8 +46,6 @@ configure_file(
 
 
 # --- 测试部分 ---
-enable_testing()
-
 add_executable(level_devil_tests
     tests/entity_model_test.cpp
 )

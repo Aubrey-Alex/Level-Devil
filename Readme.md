@@ -123,19 +123,19 @@ Level-Devil/
 
 游戏部分界面如下：
 
-![游戏开始界面](doc/结项报告/images/image.png)
-![第一关：隐形的刺](doc/结项报告/images/image%20copy%202.png)
-![第二关：地面靠近时消失](doc/结项报告/images/image%20copy%203.png)
-![第三关：会移动的刺](doc/结项报告/images/image%20copy%204.png)
-![过关界面](doc/结项报告/images/image%20copy%208.png)
-![失败界面](doc/结项报告/images/image%20copy%209.png)
-![通关界面](doc/结项报告/images/image%20copy%2010.png)
+![游戏开始界面](assets/images/image.png)
+![第一关：隐形的刺](assets/images/image%20copy%202.png)
+![第二关：地面靠近时消失](assets/images/image%20copy%203.png)
+![第三关：会移动的刺](assets/images/image%20copy%204.png)
+![过关界面](assets/images/image%20copy%208.png)
+![失败界面](assets/images/image%20copy%209.png)
+![通关界面](assets/images/image%20copy%2010.png)
 
 CI/CD 与测试流程：
 
-![build过程展示](doc/结项报告/images/image%20copy%2014.png)
-![test过程展示](doc/结项报告/images/image%20copy%2015.png)
-![package过程展示](doc/结项报告/images/image%20copy%2016.png)
+![build过程展示](assets/images/image%20copy%2014.png)
+![test过程展示](assets/images/image%20copy%2015.png)
+![package过程展示](assets/images/image%20copy%2016.png)
 
 ## 致谢
 
